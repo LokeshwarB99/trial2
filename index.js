@@ -43,14 +43,6 @@ async function createTable() {
 
 createTable();
 
-app.get("/testfunc", async (req, res) => {
-  try {
-    res.send("got response from server");
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-
 app.get("/test", (req, res) => {
   res.send("welcome");
 });
@@ -70,6 +62,7 @@ app.post("/employees", async (req, res) => {
       "insert into employees(emp_id,name,dob,address,salary) values ($1,$2,$3,$4,$5);",
       [emp_id, name, dob, address, salary]
     );
+    res.json(newEmployee.rows[0])
     console.log("Insertion Success");
   } catch (err) {
     console.error(err.message);
@@ -93,7 +86,6 @@ app.get("/employees/:id", async (req, res) => {
       "SELECT * FROM employees WHERE serial_id = $1",
       [id]
     );
-
     res.json(employee.rows[0]);
   } catch (err) {
     console.error(err.message);
